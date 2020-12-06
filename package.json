@@ -1,0 +1,10 @@
+{
+  "name": "mmm_timetable_ztm",
+  "version": "1.0.0",
+  "description": "https://magicmirror.builders/ https://ckan.multimediagdansk.pl/dataset/tristar",
+  "author": "Robert Sęk",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -1,0 +1,23 @@
+### GET 
+https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/a023ceb0-8085-45f6-8261-02e6fcba7971/download/stoptimes.json
+
+
+### GET Rozkład jazdy dla 127
+http://ckan2.multimediagdansk.pl/stopTimes?date=2020-12-06&routeId=127
+
+
+### GET Wszystkie trasy 
+https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/b15bb11c-7e06-4685-964e-3db7775f912f/download/trips.json
+
+### GET Przystanki
+https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/d3e96eb6-25ad-4d6c-8651-b1eb39155945/download/stopsingdansk.json
+
+### GET Przystanki w powiązaniu z trasą
+https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/3115d29d-b763-4af5-93f6-763b835967d6/download/stopsintrips.json
+
+### GET Rozkład dla Zacna 127
+http://ckan2.multimediagdansk.pl/stopTimes?date=2020-12-06&routeId=127&stopId=1850
+
+
+### GET Estymowany czasy przyjazdu na przystanek Zacna
+http://ckan2.multimediagdansk.pl/delays?stopId=1850
