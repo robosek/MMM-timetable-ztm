@@ -37,7 +37,7 @@ modules: [
        header: 'Timetable ZTM bus stop(Zacna)',
        config: {
             refreshInterval: 100,
-            stopId: 1850 // Get from this endpoint: https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/d3e96eb6-25ad-4d6c-8651-b1eb39155945/download/stopsingdansk.json
+            stopId: 1850, // Get from this endpoint: https://ckan.multimediagdansk.pl/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/d3e96eb6-25ad-4d6c-8651-b1eb39155945/download/stopsingdansk.json
             endpointUrl: 'http://ckan2.multimediagdansk.pl/delays?stopId=' //Check if this is still available in (https://ckan.multimediagdansk.pl/dataset/tristar)
         }
     },
