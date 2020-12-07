@@ -1,16 +1,25 @@
-const request = require("node-fetch");
+const fetch = require("node-fetch");
+const Log = require("../../js/logger.js");
 
-const TimetableFetcher = () => {
-    const fetchTimetable = (url) => {
-        let result = ''
-        await fetch(url)
-            .then(res => res.json())
-            .then(json => result = json);
-
-        result
-    }
-}
-
-
-
-module.exports = TimetableFetcher;
+const fetchTimetable = (sendNotificationSuccess, sendNotificationError) => (endpointUrl) => fetch(endpointUrl)
+    .then(
+         (response) => {
+            if (response.status !== 200) {
+                Log.error('[TIMETABLE] Looks like there was a problem fetching timetable. Status Code: ' +
+                    response.status);
+                sendNotificationError()
+            }
+            else{
+                response.json().then((data) => {
+                    Log.info('[TIMETABLE] Response is fetched correctly');
+                    sendNotificationSuccess(data);
+                });
+            }
+        }
+    )
+    .catch((err) => {
+        Log.error('[TIMETABLE] Fetch Error :-S', err);
+        sendNotificationError()
+    });
+    
+module.exports = fetchTimetable;
