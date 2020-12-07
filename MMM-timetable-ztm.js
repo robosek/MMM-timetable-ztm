@@ -1,69 +1,75 @@
 Module.register("MMM-timetable-ztm", {
-    // Default module config.
-    defaults: {
-        refreshInterval: 15 // seconds
-    },
+    defaults: {},
 
     getStyles: function () {
         "use strict";
         return ["font-awesome.css"];
     },
 
+    getScripts: function () {
+        return [
+            this.file('constants.js'),
+        ]
+    },
+
     start: function () {
         "use strict";
         this.message = "Ładuję...";
-        this.sendSocketNotification('TIMETABLE-INITIALIZE', this.config);
+        this.sendSocketNotification(TIMETABLE_INIT, this.config);
     },
 
     socketNotificationReceived: function (notification, data) {
         "use strict";
 
         switch (notification) {
-            // Temperatures values recieved
-            case 'CURRENT_TIMETABLE':
-                this.message = data;
+            case 'TIMETABLE_SUCCESS':
+                this.timetable = data;
+                this.message = null;
                 this.updateDom();
                 break;
 
-            // Errors
-            case 'TIMETABLE-ERROR':
-                this.message = 'Error: Cannot connect to server'
+            case 'TIMETABLE_ERROR':
+                this.message = 'Problem z pobraniem danych...'
+                this.timetable = null;
                 this.updateDom();
                 break;
         }
 
     },
 
-    // Override dom generator.
     getDom: function () {
         var wrapper = document.createElement("div");
         var table = document.createElement("table");
 
-        if (typeof this.message === 'string') {
+        if (this.message !== null) {
             wrapper.innerHTML = this.message;
             return wrapper;
         }
 
         let headRow = document.createElement("tr");
-        let lineNumber = document.createElement("th");
-        lineNumber.innerHTML = "Linia";
-        let estimatedTime = document.createElement("th");
-        estimatedTime.innerHTML = "Szacowany";
-        let timetableTime = document.createElement("th");
-        timetableTime.innerHTML = "Przyjazd";
+        let lineNumber = document.createElement("td");
+        lineNumber.style = 'text-align: center';
+        lineNumber.innerHTML = '<i class="fas fa-bus"></i>';
+        let estimatedTime = document.createElement("td");
+        estimatedTime.innerHTML = '<i class="fas fa-map-marker-alt"></i>';
+        estimatedTime.style = 'text-align:center'
+        let timetableTime = document.createElement("td");
+        timetableTime.innerHTML = '<i class="far fa-clock"></i>';
+        timetableTime.style = 'text-align:center'
         headRow.appendChild(lineNumber);
         headRow.appendChild(estimatedTime);
         headRow.appendChild(timetableTime);
         table.appendChild(headRow);
 
-        for (var index in this.message.delay) {
+        for (var index in this.timetable.delay) {
             let row = document.createElement("tr");
             let line = document.createElement("td");
-            line.innerHTML = this.message.delay[index].routeId;
-            let estimatedTime = document.createElement("td");
-            estimatedTime.innerHTML = this.message.delay[index].estimatedTime;
+            line.style = 'text-align: center'
+            line.innerHTML = this.timetable.delay[index].routeId;
             let timetableTime = document.createElement("td");
-            timetableTime.innerHTML = this.message.delay[index].theoreticalTime;
+            timetableTime.innerHTML = '<b>' + this.timetable.delay[index].theoreticalTime + '</b>';
+            let estimatedTime = document.createElement("td");
+            estimatedTime.innerHTML = this.timetable.delay[index].estimatedTime;
 
             row.appendChild(line);
             row.appendChild(estimatedTime);

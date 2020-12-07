@@ -1,6 +1,6 @@
 var NodeHelper = require("node_helper");
-const fetch = require("node-fetch");
-const Log = require("../../js/logger.js");
+const fetchTimetable = require('./timetablefetcher.js');
+const { TIMETABLE_SUCCESS, TIMETABLE_INIT, TIMETABLE_ERROR } = require('./constants.js')
 
 module.exports = NodeHelper.create({
     consolePrefix: 'MMM-timetable-ztm : ',
@@ -14,11 +14,13 @@ module.exports = NodeHelper.create({
         "use strict";
         var self = this;
 
-        if (notification === 'TIMETABLE-INITIALIZE') {
+        if (notification === TIMETABLE_INIT) {
             this.config = payload;
         }
 
         if (!this.isInitialized) {
+            self.getTimetable()
+
             setInterval(function () {
                 self.getTimetable();
             }, self.config.refreshInterval * 1000);
@@ -31,24 +33,18 @@ module.exports = NodeHelper.create({
     getTimetable: function () {
         "use strict";
         var self = this;
+        var apiUrl = self.config.endpointUrl;
+        var endpointUrl = apiUrl + self.config.stopId;
 
-        fetch('http://ckan2.multimediagdansk.pl/delays?stopId=1850')
-            .then(
-                function (response) {
-                    if (response.status !== 200) {
-                        Log.error('[TIMETABLE] Looks like there was a problem fetching timetable. Status Code: ' +
-                            response.status);
-                        return;
-                    }
-                    response.json().then(function (data) {
-                        Log.info('[TIMETABLE] Response is fetched correctly')
-                        self.sendSocketNotification('CURRENT_TIMETABLE', data);
-                    });
-                }
-            )
-            .catch(function (err) {
-                Log.error('[TIMETABLE] Fetch Error :-S', err);
-            });
+        const sendNotificationSuccess = (data) => {
+            self.sendSocketNotification(TIMETABLE_SUCCESS, data);
+        }
+
+        const sendNotificationError = () => {
+            self.sendSocketNotification(TIMETABLE_ERROR, null)
+        }
+
+        let fetch = fetchTimetable(sendNotificationSuccess, sendNotificationError)
+        fetch(endpointUrl);
     },
-
 });
