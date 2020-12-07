@@ -4,6 +4,7 @@
 This module allows to fetch timetable for specific bus/tram stop in tricity. It uses globally available API (https://ckan.multimediagdansk.pl/dataset/tristar)
 
 ## Screen shot
+<img width="416" alt="Zrzut ekranu 2020-12-7 o 21 32 04" src="https://user-images.githubusercontent.com/9861540/101406925-6a288b00-38da-11eb-8a90-45eb62dac4bd.png">
 
 
 ## Installation
