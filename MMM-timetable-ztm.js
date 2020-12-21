@@ -23,8 +23,14 @@ Module.register("MMM-timetable-ztm", {
 
         switch (notification) {
             case 'TIMETABLE_SUCCESS':
-                this.timetable = data;
-                this.message = null;
+                if (data.delay.length > 0) {
+                    this.timetable = data;
+                    this.message = null;
+                }
+                else {
+                    this.timetable = null;
+                    this.message = 'Brak autobusów';
+                }
                 this.updateDom();
                 break;
 
